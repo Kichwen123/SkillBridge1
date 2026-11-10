@@ -7,7 +7,7 @@ const JobCards = ({ allJobs }) => {
             <div className="row mt-2">
                 {
                     allJobs.map((job) => (
-                        <div className=" col-lg-5 mb-4" key={job.id}>
+                        <div className=" col-lg-4 mb-4" key={job.id}>
                             <div className="card h-100 border-0 shadow-sm rounded-4 p-3">
 
                                 {/* Job Title + Type */}

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import JobCards from "../components/JobCards";
 import useFetch from "../hook/useFetch";
+import { MdCancel } from "react-icons/md";
+
 
 const AllJobs = () => {
 
@@ -66,7 +68,7 @@ const AllJobs = () => {
                 <div className="row">
 
                     {/* Search Section */}
-                    <div className="col-md-4">
+                    <div className="col-md-3">
 
                         <h5>
                             Search through our job list.
@@ -115,6 +117,19 @@ const AllJobs = () => {
                                     />
 
                                 </div>
+                                <div className="mb-3">
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary btn-sm w-50"
+                                        onClick={() => {
+                                            setSearch("");
+                                            setLocation("");
+                                            setCurrentPage(1);
+                                        }}
+                                    >
+                                        Clear Search <span className="ms-2"> <MdCancel /> </span>
+                                    </button>
+                                </div>
 
                             </form>
 
@@ -123,9 +138,9 @@ const AllJobs = () => {
                     </div>
 
                     {/* Jobs Section */}
-                    <div className="col-md-8">
+                    <div className="col-md-9">
 
-                        <h6 className="text-primary">
+                        <h6 className="text-primary my-3">
                             {filteredJobs.length} job(s) found
                         </h6>
 

@@ -1,9 +1,12 @@
+import { FaArrowRightToBracket } from "react-icons/fa6";
+
+
 
 const DashboardNavBar = () => {
     return ( 
         <div>
             <nav className="d-flex justify-content-between">
-                <div>
+                <div className="text-light">
                     <h5>
                        Welcome Admin  {/* we will replace this with username */}
                     </h5>
@@ -15,10 +18,10 @@ const DashboardNavBar = () => {
                     <button 
                     className="btn"
                     style={{
-                        backgroundColor: "#DF301C"
+                        backgroundColor: "#E8E085"
                     }}
                     >
-                        Logout
+                        Logout <span className="ms-3"> <FaArrowRightToBracket /> </span>
                     </button>
                 </div>
             </nav>

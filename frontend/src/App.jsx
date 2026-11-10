@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css"
+import './App.css'
 import Home from "./pages/Home/Home"
 import { Route, Routes } from "react-router-dom"
 import AllJobs from "./pages/AllJobs"
@@ -16,18 +17,19 @@ import AdminDashboard from "./pages/admin/AdminDashboard.jsx"
 import AdminEmployer from "./pages/admin/AdminEmployer.jsx"
 import AdminSettings from "./pages/admin/AdminSettings.jsx"
 import AdminJobSeeker from "./pages/admin/AdminJobSeekers.jsx"
-import AdminJobs from "./pages/admin/AdminJobs.jsx"
+import Jobs from "./pages/admin/Jobs.jsx"
 import EmployerLayout from "./layout/EmployerLayout.jsx"
 import EmployerDashboard from "./pages/employer/EmployerDashboard.jsx"
+import JobList from "./pages/employer/JobList.jsx"
 import Applicants from "./pages/employer/Applicants.jsx"
 import JobPost from "./pages/employer/JobPost.jsx"
 import EmployerSettings from "./pages/employer/EmployerSettings.jsx"
-import JobSeekerLayout from "./layout/JobSeekerLayout.jsx"
-import JobSeekerDashboard from "./pages/jobseeker/JobSeekerDashboard.jsx"
-import AppliedJobs from "./pages/jobseeker/AppliedJobs.jsx"
-import SeekerSettings from "./pages/jobseeker/SeekerSettings.jsx"
-import SkillPage from "./pages/jobseeker/SkillPages.jsx"
-import HelpSection from "./pages/jobseeker/HelpSection.jsx"
+import JobSeekerlayout from "./layout/JobSeekerLayout.jsx"
+import JobSeekerdashboard from "./pages/jobseeker/Dashboard.jsx"
+import JobSeekerApplication from "./pages/jobseeker/Applications.jsx"
+import SeekerHelp from "./pages/jobseeker/Help.jsx"
+import SeekerSettings from "./pages/jobseeker/Settings.jsx"
+import Skills from "./pages/jobseeker/Skills.jsx"
 
 function App() {
 
@@ -36,7 +38,7 @@ function App() {
       <Toaster />
 
       <Routes>
-        <Route element={<PublicLayout />} >
+        <Route element={ <PublicLayout /> } >
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/all-jobs" element={<AllJobs />} />
@@ -53,29 +55,31 @@ function App() {
 
 
         {/* Admin route */}
-        <Route path="/admin" element={<AdminLayout />} >
-          <Route index element={<AdminDashboard />} />
-          <Route path="job-seekers" element={<AdminJobSeeker />} />
-          <Route path="employers" element={<AdminEmployer />} />
-          <Route path="settings" element={<AdminSettings />} />
-          <Route path="jobs" element={<AdminJobs />} />
+        <Route path="/admin" element={ <AdminLayout /> } >
+          <Route index element={ <AdminDashboard /> } />
+          <Route path="job-seekers" element={ <AdminJobSeeker /> } />
+          <Route path="employers" element={ <AdminEmployer /> } />
+          <Route path="settings" element={ <AdminSettings /> } />
+          <Route path="jobs" element={ <Jobs /> } />
         </Route>
 
         {/* Employer Routes */}
-        <Route path="/employer" element={<EmployerLayout />}>
-          <Route index element={<EmployerDashboard />} />
-          <Route path="applicants" element={<Applicants />} />
-          <Route path="create-job" element={<JobPost />} />
-          <Route path="settings" element={<EmployerSettings />} />
+        <Route path="/employer" element={ <EmployerLayout /> } >
+          <Route index element={ <EmployerDashboard /> } />
+          <Route path="jobs" element={ <JobList />  } />
+          <Route path="applicants" element={ <Applicants /> } />
+          <Route path="post-job" element={ <JobPost /> } />
+          <Route path="settings" element={ <EmployerSettings /> } />
         </Route>
-        {/* Job seekers routes */}
-        <Route path="/job-seeker" element={<JobSeekerLayout />}>
-          <Route index element={<JobSeekerDashboard />} />
-          <Route path="applications" element={ <AppliedJobs/>} />
-          <Route path="settings" element={ <SeekerSettings/>} />
-          <Route path="skills" element={<SkillPage/> } />
-          <Route path="help" element={<HelpSection/> } />
 
+
+        {/* Job seekers routes */}
+        <Route path="/job-seeker" element={ <JobSeekerlayout />}>
+          <Route index element={ <JobSeekerdashboard /> } />
+          <Route path="applications" element={ <JobSeekerApplication /> } />
+          <Route path="skills" element={ <Skills /> } />
+          <Route path="settings" element={ <SeekerSettings /> } />
+          <Route path="help" element={ <SeekerHelp /> } />
         </Route>
       </Routes>
 
