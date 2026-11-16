@@ -1,7 +1,53 @@
 
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 
 const Login = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const redirect = useNavigate();
+
+    const employerLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const dataEmployer = { email, password }
+            const respond = await axios.post("http://localhost:4005/api/v1/auth/login", dataEmployer, {
+                withCredentials: true
+            });
+            // redirect to specific dashboard 
+            switch (respond.data.user) {
+                case "admin":
+                    redirect("/admin");
+                    break;
+
+                case "employer":
+                    redirect("/employer");
+                    break;
+
+                case "jobseeker":
+                    redirect("/job-seeker");
+                    break;
+
+                default:
+                    redirect("/login");
+                    break;
+            }
+            //console.log(respond.data.user)
+            toast.success(respond.data.message);
+
+            setEmail(""),
+                setPassword("")
+
+
+        }
+        catch (error) {
+            toast.error(error.respond.data.message);
+
+        }
+    }
     return (
         <div className="container my-5">
             <div className="row justify-content-center">
@@ -34,7 +80,7 @@ const Login = () => {
                                     </p>
                                 </div>
 
-                                <form>
+                                <form onSubmit={employerLogin}>
                                     <div className="mb-3">
                                         <label htmlFor="email" className="form-label">
                                             Email Address
@@ -45,6 +91,8 @@ const Login = () => {
                                             id="email"
                                             placeholder="e.g. james@gmail.com"
                                             className="form-control"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </div>
 
@@ -58,6 +106,8 @@ const Login = () => {
                                             id="password"
                                             placeholder="Enter your password"
                                             className="form-control"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
                                         />
                                     </div>
 

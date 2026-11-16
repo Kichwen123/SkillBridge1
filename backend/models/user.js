@@ -11,13 +11,13 @@ const userSchema = new mongoose.Schema({
         trim:true,
         unique:true,
         lowercase:true 
-    },
+    }, 
     phone:{
         type: String,
         required:true,
-        unique:true
+        //unique:true
     },
-    location :{
+    location :{ 
         type: String,
         trim : true
         

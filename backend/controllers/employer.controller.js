@@ -1,7 +1,7 @@
-import User from "../../models/user.js";
+import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 
-export const createUser = async () => {
+export const createUser = async (req,res) => {
     // error handling
     try {
         const { fullname, email, phone, location, password } = req.body;
@@ -56,6 +56,7 @@ export const createUser = async () => {
 
     }
     catch (error) {
+        console.log(error);
         return res.status(500).json({
             success: false,
             message: "Something went wrong"

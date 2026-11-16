@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser } from "../config/controllers/employer.controller.js";
+import { createUser } from "../controllers/employer.controller.js";
 const router = express.Router();
 
 // register employer
