@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const EmployerSignup = () => {
     const [fullname, setFullName] = useState("");
@@ -10,12 +11,14 @@ const EmployerSignup = () => {
     const [location, setLocation] = useState("");
     const [password, setPassword] = useState("");
     const redirect = useNavigate();
+    const backendLink = useSelector((state)=>state.prod.link)
+
 
     const registerEmployer = async (e) => {
         e.preventDefault();
         try {
             const employerData = { fullname, email, phone, location, password };
-            const response = await axios.post("http://localhost:4005/api/v1/employer/register", employerData, {
+            const response = await axios.post(`${backendLink}/api/v1/employer/register`, employerData, {
                 withCredentials: true
             });
             redirect("/login");
