@@ -49,7 +49,6 @@ const Login = () => {
         }
         catch (error) {
             toast.error(error.respond.data.message);
-
         }
     }
     return (

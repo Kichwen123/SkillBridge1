@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema({
         trim: true,
         select : false
     },
+    avatar:{
+        type: String
+         
+
+    },
     role:{
       type: String,
       enum :["admin","employer","jobseeker"],

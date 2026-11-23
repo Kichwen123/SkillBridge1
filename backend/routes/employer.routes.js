@@ -5,4 +5,6 @@ const router = express.Router();
 // register employer
 router.post("/register", createUser);
 
+
+
 export default router;
