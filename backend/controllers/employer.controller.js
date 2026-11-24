@@ -107,3 +107,27 @@ export const postJobs = async (req,res)=>{
         });
     }
 }
+// fetch jobs
+export const fetchEmployer = async(req,res)=>{
+    const { user } = req;
+    try {
+        const jobs = await Job.find({employer: user._id});
+        if(!jobs){
+            return res.status(404).json({
+                success: false,
+                message: "No jobs found under this account"
+            });
+           
+        }
+         return res.status(200).json({
+                success: true,
+                jobs
+            })
+    } 
+    catch (error) {
+      return  res.status(500).json({
+        success: false,
+        message: "Something went wrong"
+      });  
+    }
+}
