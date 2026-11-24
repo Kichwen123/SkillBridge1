@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import bcrypt from "bcryptjs";
+import Job from "../models/jobs.model.js";
 
 export const createUser = async (req,res) => {
     // error handling
@@ -64,4 +65,45 @@ export const createUser = async (req,res) => {
 
     }
 
+}
+//post jobs
+export const postJobs = async (req,res)=>{
+    const { user } = req;
+    try {
+      const { jobTitle,location,employmenType,jobDescription,jobRequirements, experience,deadline}  = req.body;
+      //form validation
+      if(!jobTitle || !location || !employmenType || !jobDescription || !jobRequirements || !experience || !deadline)
+      return res.status(400).json({
+            success: false,
+            message: "All fields required"
+        }); 
+         //save the job details
+       const newJobPost = new Job({
+        jobTitle,
+        location,
+        employmentType,
+        jobDescription,
+        jobRequirements,
+        experience,
+        deadline,
+        employer: user_id,
+        paymentStatus: false,
+        isPublished: false,
+        companyName: user.fullname
+       });
+       await newJobPost.save();
+       return res.status(201).json({
+        success: true,
+        message: "Job created but not published"
+
+       });
+       }  
+           
+    catch (error) {
+        // console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
 }
