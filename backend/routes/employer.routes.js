@@ -13,7 +13,7 @@ router.post("/post-job",
 // fetch employer jobs
 router.get("/employer-jobs", 
     authMiddleware.verifyToken,
-    authMiddleware.authorizeRole,
+    authMiddleware.authorizeRole("employer"),
     fetchEmployer)
 
 export default router;

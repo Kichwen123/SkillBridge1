@@ -49,7 +49,7 @@ const JobPost = () => {
                 </p>
             </div>
 
-            <form>
+            <form onSubmit={createJob}>
                 <div className="border rounded-3 p-3">
                     <div className="mb-3">
                         <label className="form-label">Job Title</label>

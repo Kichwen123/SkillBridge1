@@ -2,7 +2,7 @@ import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import Job from "../models/jobs.model.js";
 
-export const createUser = async (req,res) => {
+export const createUser = async (req, res) => {
     // error handling
     try {
         const { fullname, email, phone, location, password } = req.body;
@@ -17,7 +17,7 @@ export const createUser = async (req,res) => {
 
 
         }
-       
+
         const normalizedEmail = email.toLowerCase().trim();
         //search for an existing user
         const existingUser = await User.findOne({ email: normalizedEmail });
@@ -27,33 +27,32 @@ export const createUser = async (req,res) => {
                 message: "User with email already exists"
             });
         }
-         //hash the password
+        //hash the password
         const hashedPassword = await bcrypt.hash(password, 12);
-        if (password.length < 8)
-            {
+        if (password.length < 8) {
             return res.status(400).json({
-            success: false,
-            message: "Password has to be atleast 8 characters"
-        })
+                success: false,
+                message: "Password has to be atleast 8 characters"
+            })
 
-            }
-     // save user
-     const newEmployer =  new User({
-        fullname,
-        email: normalizedEmail,
-        phone,
-        location,
-        password:hashedPassword,
-        role: "employer"
-     });
-      await newEmployer.save();
-       
-    return res.status(200).json({
+        }
+        // save user
+        const newEmployer = new User({
+            fullname,
+            email: normalizedEmail,
+            phone,
+            location,
+            password: hashedPassword,
+            role: "employer"
+        });
+        await newEmployer.save();
+
+        return res.status(200).json({
             success: true,
             message: `Company with name ${fullname} created`
         });
 
-     
+
 
     }
     catch (error) {
@@ -67,40 +66,43 @@ export const createUser = async (req,res) => {
 
 }
 //post jobs
-export const postJobs = async (req,res)=>{
+export const postJobs = async (req, res) => {
     const { user } = req;
     try {
-      const { jobTitle,location,employmenType,jobDescription,jobRequirements, experience,deadline}  = req.body;
-      //form validation
-      if(!jobTitle || !location || !employmenType || !jobDescription || !jobRequirements || !experience || !deadline)
-      return res.status(400).json({
-            success: false,
-            message: "All fields required"
-        }); 
-         //save the job details
-       const newJobPost = new Job({
-        jobTitle,
-        location,
-        employmentType,
-        jobDescription,
-        jobRequirements,
-        experience,
-        deadline,
-        employer: user_id,
-        paymentStatus: false,
-        isPublished: false,
-        companyName: user.fullname
-       });
-       await newJobPost.save();
-       return res.status(201).json({
-        success: true,
-        message: "Job created but not published"
+        const { jobTitle, location, employmentType, jobDescription, jobRequirements, experience, deadline } = req.body;
+        //form validation
+        if (!jobTitle || !location || !employmentType || !jobDescription || !jobRequirements || !experience || !deadline) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields required"
+            });
+        }
 
-       });
-       }  
-           
+        //save the job details
+        const newJobPost = new Job({
+            jobTitle,
+            location,
+            employmentType,
+            jobDescription,
+            jobRequirements,
+            experience,
+            deadline,
+            employer: user._id,
+            paymentStatus: "unpaid",
+            isPublished: false,
+            companyName: user.fullname
+        });
+        await newJobPost.save();
+        
+        return res.status(201).json({
+            success: true,
+            message: "Job created but not published"
+
+        });
+    }
+
     catch (error) {
-        // console.log(error)
+        console.log(error);
         return res.status(500).json({
             success: false,
             message: "Something went wrong"
@@ -108,26 +110,30 @@ export const postJobs = async (req,res)=>{
     }
 }
 // fetch jobs
-export const fetchEmployer = async(req,res)=>{
+export const fetchEmployer = async (req, res) => {
     const { user } = req;
+    //console.log(user.role)
     try {
-        const jobs = await Job.find({employer: user._id});
-        if(!jobs){
+        const jobs = await Job.find({ employer: user._id });
+
+        if (!jobs) {
             return res.status(404).json({
                 success: false,
                 message: "No jobs found under this account"
             });
-           
         }
-         return res.status(200).json({
-                success: true,
-                jobs
-            })
-    } 
+        console.log(jobs)
+        return res.status(200).json({
+            success: true,
+            jobs
+        });
+
+
+    }
     catch (error) {
-      return  res.status(500).json({
-        success: false,
-        message: "Something went wrong"
-      });  
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
     }
 }
