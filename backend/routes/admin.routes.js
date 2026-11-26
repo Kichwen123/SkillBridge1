@@ -1,5 +1,5 @@
 import express from "express";
-import { dashboardData } from "../controllers/admin.controller.js";
+import { dashboardData, fetchAllJobs, fetchUsers } from "../controllers/admin.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
  const router = express.Router();
  //dashboard data
@@ -7,7 +7,17 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
     authMiddleware.verifyToken,
     authMiddleware.authorizeRole("admin"),
     dashboardData);
-
+// fetch users
+router.get("/all-users",
+    authMiddleware.verifyToken,
+    authMiddleware.authorizeRole("admin"),
+    fetchUsers
+)
+// fetch all jobs
+router.get("/all-jobs",
+    authMiddleware.verifyToken,
+    authMiddleware.authorizeRole("admin"),
+    fetchAllJobs);
     
  export default router;
 

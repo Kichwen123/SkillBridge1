@@ -1,28 +1,30 @@
 import axios from "axios";
-import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
+
 const AdminDashboard = () => {
+
     const [datas, setDatas] = useState(null);
     const backendLink = useSelector((state) => state.prod.link);
+
     useEffect(() => {
         const dashboardData = async () => {
             try {
                 const response = await axios.get(`${backendLink}/api/v1/admin/dashboard`, {
                     withCredentials: true
                 });
-                console.log(response?.data);
-                setDatas()
+                //console.log(response?.data);
+                setDatas(response?.data);
             }
             catch (error) {
-                toast.error(
-                    error.response?.data?.message || "Failed to fetch data"
-                );
+                toast.error(error.response?.data.message || "Cannot fetch data");
             }
         }
         dashboardData();
-    }, [backendLink]
-    )
+    }, [backendLink])
+
     return (
         <div className="p-3">
             <div className="mb-4">
@@ -37,13 +39,12 @@ const AdminDashboard = () => {
                     <div className="p-3 border rounded-3">
                         <p className="text-muted mb-2">Total Jobs</p>
                         {
-                            datas?(
-                        <h3 className="fw bold">
-                            {datas.jobCount}
-                        </h3>
-                            ):(
-                         <h3 className="fw-bold mb-0">--</h3>
-
+                            datas ? (
+                                <h3 className="fw-bold mb-0">
+                                    {datas.jobCount}
+                                </h3>
+                            ) : (
+                                <h3 className="fw-bold mb-0">--</h3>
                             )
                         }
                         <small className="text-muted">Posted opportunities</small>
@@ -53,14 +54,15 @@ const AdminDashboard = () => {
                 <div className="col-md-4">
                     <div className="p-3 border rounded-3">
                         <p className="text-muted mb-2">Employers</p>
- {
-                            datas?(
-                        <h3 className="fw bold">
-                            {datas.employers}
-                        </h3>
-                            ):(
-                         <h3 className="fw-bold mb-0">--</h3>
-
+                        {
+                            datas ? (
+                                <h3 className="fw-bold mb-0">
+                                    {
+                                        datas.employerCount
+                                    }
+                                </h3>
+                            ) : (
+                                <h3 className="fw-bold mb-0">--</h3>
                             )
                         }
                         <small className="text-muted">Registered companies</small>
@@ -70,16 +72,18 @@ const AdminDashboard = () => {
                 <div className="col-md-4">
                     <div className="p-3 border rounded-3">
                         <p className="text-muted mb-2">Job Seekers</p>
- {
-                            datas?(
-                        <h3 className="fw bold">
-                            {datas.jobSeeker}
-                        </h3>
-                            ):(
-                         <h3 className="fw-bold mb-0">--</h3>
-
+                        {
+                            datas ? (
+                                <h3 className="fw-bold mb-0">
+                                    {
+                                        datas.jobSeeker
+                                    }
+                                </h3>
+                            ) : (
+                                <h3 className="fw-bold mb-0">--</h3>
                             )
-                        }  <small className="text-muted">Registered candidates</small>
+                        }
+                        <small className="text-muted">Registered candidates</small>
                     </div>
                 </div>
             </div>
@@ -91,7 +95,7 @@ const AdminDashboard = () => {
                     job seekers, and keep your platform running smoothly.
                 </p>
             </div>
-        </div >
+        </div>
     );
 };
 
